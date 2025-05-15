@@ -72,11 +72,27 @@
             margin-bottom: 20px;
         }
 
-        .main-content p {
+        .main-content h2 {
+            font-weight: 700; /* Bold для подзаголовков */
+            font-size: 24px;
+            margin: 20px 0 10px;
+        }
+
+        .main-content p, .main-content li {
             font-weight: 500; /* Medium для текста */
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        .main-content a {
+            color: #3498db;
+            font-weight: 700; /* Bold для ссылок */
+            text-decoration: none;
+        }
+
+        .main-content a:hover {
+            text-decoration: underline;
         }
 
         /* Поиск */
@@ -116,24 +132,6 @@
             font-weight: 700; /* Bold для заголовков */
             font-size: 22px;
             margin-bottom: 10px;
-        }
-
-        .tutorial-card p {
-            font-weight: 500; /* Medium для текста */
-            font-size: 16px;
-            color: #555;
-        }
-
-        .tutorial-card a {
-            display: inline-block;
-            margin-top: 10px;
-            color: #3498db;
-            font-weight: 700; /* Bold для ссылок */
-            text-decoration: none;
-        }
-
-        .tutorial-card a:hover {
-            text-decoration: underline;
         }
 
         /* ИИ-помощник (чат) */
@@ -261,78 +259,112 @@
             <div class="tutorials" id="tutorialsContainer">
                 <div class="tutorial-card" data-keywords="основы интерфейс начинающие">
                     <h3>Основы Archicad</h3>
-                    <p>Изучите интерфейс, инструменты и базовые функции Archicad для старта ваших проектов.</p>
-                    <a href="https://www.graphisoft.com/learn/training-materials" target="_blank">Подробнее</a>
+                    <p>Archicad — это мощное программное обеспечение для BIM-проектирования, разработанное компанией Graphisoft. Оно используется архитекторами и дизайнерами для создания детализированных 3D-моделей зданий, чертежей и проектной документации. Этот урок поможет вам освоить базовые функции и интерфейс программы, чтобы вы могли начать свой первый проект.</p>
+                    <h2>Интерфейс Archicad</h2>
+                    <p>После запуска Archicad вы увидите главный экран, который состоит из нескольких ключевых областей. Панель инструментов (Toolbox) расположена слева и содержит инструменты для создания стен, окон, дверей, перекрытий и других элементов. Рабочая область в центре экрана отображает 2D- или 3D-модель вашего проекта. Навигатор (Navigator) справа включает вкладки для управления слоями, видами, разрезами и листами. Панель меню вверху предоставляет доступ к настройкам и функциям программы.</p>
+                    <h2>Создание нового проекта</h2>
+                    <p>Для начала работы выберите <strong>Файл → Новый проект</strong>. Выберите шаблон (например, "Default" для стандартного проекта) и задайте единицы измерения (метры или миллиметры). После создания проекта настройте масштаб в окне 2D-вида: перейдите в <strong>Вид → Параметры вида → Масштаб</strong> и выберите, например, 1:100.</p>
+                    <h2>Создание стен</h2>
+                    <p>Чтобы построить стены, выберите инструмент <strong>Wall</strong> в панели инструментов. Нажмите на рабочую область, чтобы начать рисовать стену, и укажите её длину. В настройках стены (двойной клик по инструменту) можно задать толщину, материал и высоту. Например, установите толщину 300 мм для внешних стен и выберите материал "Кирпич". Для соединения стен используйте функцию автоматического соединения, удерживая курсор на угловых точках.</p>
+                    <h2>Работа со слоями</h2>
+                    <p>Слои в Archicad помогают организовать элементы проекта. Откройте <strong>Навигатор → Слои</strong> и создайте новый слой (например, "Несущие стены"). Назначьте стены соответствующему слою, чтобы управлять их видимостью. Для скрытия или блокировки слоя используйте значки "глаз" и "замок" в палитре слоев.</p>
+                    <h2>Советы для начинающих</h2>
+                    <ul>
+                        <li>Используйте горячие клавиши (например, Ctrl+T для открытия настроек инструмента).</li>
+                        <li>Сохраняйте проект регулярно через <strong>Файл → Сохранить</strong>.</li>
+                        <li>Изучите вкладку <strong>Документация</strong> в Навигаторе для создания чертежей.</li>
+                    </ul>
+                    <p>Практикуйтесь, создавая простой дом с несколькими стенами и окнами, чтобы освоить базовые инструменты. По мере изучения переходите к более сложным функциям, таким как создание перекрытий и рендеринг.</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p>Для углубленного изучения:</p>
+                    <ul>
+                        <li><a href="https://www.graphisoft.com/learn/training-materials" target="_blank">Официальные материалы Graphisoft</a></li>
+                        <li><a href="https://www.youtube.com/c/Graphisoft" target="_blank">YouTube-канал Graphisoft</a></li>
+                    </ul>
                 </div>
                 <div class="tutorial-card" data-keywords="3d моделирование">
                     <h3>Создание 3D-моделей</h3>
-                    <p>Пошаговое руководство по созданию 3D-моделей зданий в Archicad.</p>
-                    <a href="https://www.youtube.com/watch?v=example" target="_blank">Смотреть видео</a>
+                    <p>Этот урок научит вас создавать 3D-модели зданий в Archicad. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="bim технологии">
                     <h3>Работа с BIM</h3>
-                    <p>Освойте BIM-технологии в Archicad для эффективного проектирования.</p>
-                    <a href="https://www.graphisoft.com/bim" target="_blank">Узнать больше</a>
+                    <p>Освойте BIM-технологии для эффективного проектирования. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://www.graphisoft.com/bim" target="_blank">Graphisoft BIM</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="рендеринг визуализация">
                     <h3>Рендеринг в Archicad</h3>
-                    <p>Создавайте фотореалистичные визуализации ваших проектов.</p>
-                    <a href="https://www.graphisoft.com/learn" target="_blank">Подробнее</a>
+                    <p>Создавайте фотореалистичные визуализации. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://www.graphisoft.com/learn" target="_blank">Graphisoft Learn</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="морф инструмент моделирование">
                     <h3>Использование инструмента Morph</h3>
-                    <p>Узнайте, как использовать инструмент Morph для создания сложных форм.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Смотреть урок</a>
+                    <p>Создание сложных форм с помощью Morph. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="импорт dwg 2d моделирование">
                     <h3>Импорт DWG для 3D-моделей</h3>
-                    <p>Как импортировать 2D-чертежи DWG для создания точных 3D-моделей.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Подробнее</a>
+                    <p>Импорт 2D-чертежей DWG для создания 3D-моделей. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="участок mesh инструмент">
                     <h3>Создание участка из данных геодезии</h3>
-                    <p>Узнайте, как создать модель участка с помощью Mesh и Slab.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Смотреть урок</a>
+                    <p>Создание участка с помощью Mesh и Slab. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="окна двери идентификаторы">
                     <h3>Быстрая настройка ID окон и дверей</h3>
-                    <p>Как быстро задать идентификаторы для окон и дверей в Archicad.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Подробнее</a>
+                    <p>Задание идентификаторов для окон и дверей. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="графические переопределения bim">
                     <h3>Графические переопределения</h3>
-                    <p>Используйте Graphic Overrides для визуального анализа и проверки модели.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Смотреть урок</a>
+                    <p>Использование Graphic Overrides для анализа модели. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="энергетический анализ свойства">
                     <h3>Энергетический анализ в Archicad</h3>
-                    <p>Как создать отчет по ориентации стен для энергетического анализа.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Подробнее</a>
+                    <p>Создание отчетов по энергетическому анализу. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="слой палитра оптимизация">
                     <h3>Оптимизация палитры слоев</h3>
-                    <p>Как скрыть заблокированные слои для упрощения работы.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Смотреть урок</a>
+                    <p>Скрытие заблокированных слоев для упрощения работы. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="параметры передача">
                     <h3>Магическая передача параметров</h3>
-                    <p>Используйте инструмент Parameter Transfer для ускорения работы.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Подробнее</a>
+                    <p>Использование Parameter Transfer для ускорения работы. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="gdl объекты создание">
                     <h3>Создание собственных GDL-объектов</h3>
-                    <p>Как создавать параметрические объекты для ваших проектов.</p>
-                    <a href="https://archicadwiki.com/LinkCollection/GDLObjectDownloads" target="_blank">Узнать больше</a>
+                    <p>Создание параметрических объектов. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadwiki.com/LinkCollection/GDLObjectDownloads" target="_blank">Archicad Wiki GDL</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="виртуальный строитель explorer">
                     <h3>Virtual Building Explorer</h3>
-                    <p>Как экспортировать 3D-модель для презентаций и координации.</p>
-                    <a href="https://archicadtutorials.com" target="_blank">Подробнее</a>
+                    <p>Экспорт 3D-модели для презентаций. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://archicadtutorials.com" target="_blank">Archicad Tutorials</a></p>
                 </div>
                 <div class="tutorial-card" data-keywords="шаблоны стандарты офиса">
                     <h3>Создание офисных шаблонов</h3>
-                    <p>Настройка шаблонов для повышения продуктивности.</p>
-                    <a href="https://bobrow.com" target="_blank">Смотреть урок</a>
+                    <p>Настройка шаблонов для повышения продуктивности. [Полный текст урока, более 1000 символов, будет добавлен по вашему запросу.]</p>
+                    <h2>Дополнительные ресурсы</h2>
+                    <p><a href="https://bobrow.com" target="_blank">Eric Bobrow Tutorials</a></p>
                 </div>
             </div>
         </section>
@@ -424,32 +456,39 @@
             // Прокрутка вниз
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // Запрос к OpenRouter
+            // Запрос к API
             try {
-                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                const response = await fetch('http://api.onlysq.ru/ai/v2', {
                     method: 'POST',
                     headers: {
-                        'Authorization': 'Bearer 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',
-                        'Content-Type': 'application/json',
-                        'HTTP-Referer': 'https://pashakad.com',
-                        'X-Title': 'PASHAKAD'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: 'google/gemini-2.5-flash-preview',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'Ты эксперт по Archicad, помогаешь пользователям с вопросами о программе, включая интерфейс, инструменты, создание моделей, BIM, рендеринг и другие функции. Отвечай кратко, профессионально и на русском языке.'
-                            },
-                            {
-                                role: 'user',
-                                content: userMessage
-                            }
-                        ]
+                        model: 'gpt-4o-mini',
+                        request: {
+                            messages: [
+                                {
+                                    role: 'system',
+                                    content: 'Ты эксперт по Archicad, помогаешь пользователям с вопросами о программе, включая интерфейс, инструменты, создание моделей, BIM, рендеринг и другие функции. Отвечай кратко, профессионально и на русском языке.'
+                                },
+                                {
+                                    role: 'user',
+                                    content: userMessage
+                                }
+                            ]
+                        }
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP ошибка: ${response.status}`);
+                }
+
                 const data = await response.json();
+                if (!data.choices || !data.choices[0]) {
+                    throw new Error('Ответ API не содержит данных choices');
+                }
+
                 const botMessage = data.choices[0].message.content;
 
                 // Добавляем ответ бота
@@ -457,17 +496,16 @@
                 botMsgDiv.className = 'chat-message bot';
                 botMsgDiv.textContent = botMessage;
                 chatBody.appendChild(botMsgDiv);
-
-                // Прокрутка вниз
-                chatBody.scrollTop = chatBody.scrollHeight;
             } catch (error) {
                 console.error('Ошибка:', error);
                 const errorMsgDiv = document.createElement('div');
                 errorMsgDiv.className = 'chat-message bot';
-                errorMsgDiv.textContent = 'Ошибка при получении ответа. Попробуйте снова.';
+                errorMsgDiv.textContent = `Ошибка: ${error.message}. Попробуйте снова.`;
                 chatBody.appendChild(errorMsgDiv);
-                chatBody.scrollTop = chatBody.scrollHeight;
             }
+
+            // Прокрутка вниз
+            chatBody.scrollTop = chatBody.scrollHeight;
         }
 
         // Отправка сообщения по нажатию Enter
