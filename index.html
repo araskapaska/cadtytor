@@ -3,348 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PASHAKAD - Обучение Archicad</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Montserrat:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <title>PASHAKAD - Чат-бот по Archicad</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <style>
+        :root {
+            --md-sys-color-primary: #D0BCFF;
+            --md-sys-color-on-primary: #381E72;
+            --md-sys-color-primary-container: #4F378B;
+            --md-sys-color-on-primary-container: #EADDFF;
+            --md-sys-color-secondary: #CCC2DC;
+            --md-sys-color-on-secondary: #332D41;
+            --md-sys-color-secondary-container: #4A4458;
+            --md-sys-color-on-secondary-container: #E8DEF8;
+            --md-sys-color-tertiary: #EFB8C8;
+            --md-sys-color-on-tertiary: #492532;
+            --md-sys-color-tertiary-container: #633B48;
+            --md-sys-color-on-tertiary-container: #FFD8E4;
+            --md-sys-color-error: #F2B8B5;
+            --md-sys-color-error-container: #8C1D18;
+            --md-sys-color-on-error: #601410;
+            --md-sys-color-on-error-container: #F9DEDC;
+            --md-sys-color-background: #1C1B1F;
+            --md-sys-color-on-background: #E6E1E5;
+            --md-sys-color-surface: #1C1B1F;
+            --md-sys-color-on-surface: #E6E1E5;
+            --md-sys-color-surface-variant: #49454F;
+            --md-sys-color-on-surface-variant: #CAC4D0;
+            --md-sys-color-outline: #938F99;
+            --md-sys-color-inverse-on-surface: #1C1B1F;
+            --md-sys-color-inverse-surface: #E6E1E5;
+            --md-sys-color-inverse-primary: #6750A4;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-tint: #D0BCFF;
+            --md-sys-color-outline-variant: #49454F;
+            --md-sys-color-scrim: #000000;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Geologica', sans-serif;
         }
 
         body {
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
             font-weight: 500;
             line-height: 1.6;
-        }
-
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: #2c3e50;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding-top: 20px;
-            color: #fff;
-            overflow-y: auto;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 24px;
-            padding: 0 10px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar ul li {
-            padding: 15px 20px;
-            font-size: 18px;
-            font-weight: 700;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar ul li:hover {
-            background-color: #34495e;
-        }
-
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar ul li a:hover {
-            color: #3498db;
-        }
-
-        .main-content {
-            margin-left: 270px;
-            padding: 40px;
-            max-width: 1200px;
-        }
-
-        .main-content h1 {
-            font-weight: 700;
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        .main-content h2 {
-            font-weight: 700;
-            font-size: 24px;
-            margin: 20px 0 10px;
-            color: #3498db;
-        }
-
-        .main-content p, .main-content li {
-            font-weight: 500;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-
-        .main-content a {
-            color: #3498db;
-            font-weight: 700;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .main-content a:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-
-        .search-bar {
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 16px;
-            font-weight: 500;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: border-color 0.3s;
-        }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .tutorials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .tutorial-card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .tutorial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .tutorial-card h3 {
-            font-weight: 700;
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .tutorial-content {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .tutorial-content.show {
-            display: block;
-        }
-
-        .toggle-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 700;
-            margin-top: 15px;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-button:hover {
-            background-color: #2980b9;
-        }
-
-        .chat-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #3498db, #00ddeb);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-            z-index: 1000;
-        }
-
-        .chat-icon:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-icon i {
-            color: #fff;
-            font-size: 24px;
-        }
-
-        .chat-window {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 450px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             flex-direction: column;
+            padding: 20px;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px);
+            background-color: var(--md-sys-color-surface);
+            border-radius: 28px;
             overflow: hidden;
-            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .chat-header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 15px;
-            font-weight: 700;
-            font-size: 18px;
-            text-align: center;
+            padding: 20px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
 
-        .clear-history {
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 14px;
-            transition: color 0.3s;
+        .chat-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            flex-grow: 1;
         }
 
-        .clear-history:hover {
-            color: #3498db;
+        .chat-header .material-symbols-outlined {
+            font-size: 28px;
         }
 
         .chat-body {
             flex: 1;
-            padding: 15px;
+            padding: 20px;
             overflow-y: auto;
-            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .chat-message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 10px;
             max-width: 80%;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease-in-out;
+            padding: 16px 20px;
+            border-radius: 24px;
+            font-size: 16px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .chat-message.user {
-            background-color: #3498db;
-            color: #fff;
-            margin-left: auto;
-            margin-right: 5px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            font-weight: 500;
         }
 
         .chat-message.bot {
-            background-color: #e0e0e0;
-            color: #333;
-            margin-right: auto;
-            margin-left: 5px;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            font-weight: 400;
         }
 
-        .font-roboto { font-family: 'Roboto', sans-serif; }
-        .font-open-sans { font-family: 'Open Sans', sans-serif; }
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .font-source-code-pro { font-family: 'Source Code Pro', monospace; }
+        .chat-input-container {
+            padding: 16px;
+            background-color: var(--md-sys-color-surface);
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            gap: 12px;
+        }
 
         .chat-input {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid #ddd;
-            background-color: #fff;
-        }
-
-        .chat-input input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: border-color 0.3s;
-        }
-
-        .chat-input input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .chat-input button {
-            padding: 10px 15px;
-            background-color: #3498db;
-            color: #fff;
+            padding: 16px 20px;
+            border-radius: 24px;
             border: none;
-            border-radius: 5px;
-            margin-left: 10px;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface);
+            font-size: 16px;
+            font-weight: 500;
+            outline: none;
+            transition: background-color 0.2s;
+        }
+
+        .chat-input:focus {
+            background-color: var(--md-sys-color-surface-variant);
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary);
+        }
+
+        .send-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-weight: 700;
-            transition: background-color 0.3s;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
-        .chat-input button:hover {
-            background-color: #2980b9;
+        .send-button:hover {
+            transform: scale(1.05);
+            background-color: var(--md-sys-color-primary-container);
         }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                padding: 15px;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-            
-            .chat-window {
-                width: 90%;
-                right: 5%;
-                bottom: 80px;
-            }
-            
-            .tutorials {
-                grid-template-columns: 1fr;
-            }
+        .send-button .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 8px;
+            padding: 16px 20px;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            border-radius: 24px;
+            align-self: flex-start;
+            font-weight: 400;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--md-sys-color-on-surface-variant);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
 
         /* Scrollbar styling */
@@ -353,325 +213,183 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: var(--md-sys-color-surface-variant);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #3498db;
+            background: var(--md-sys-color-primary);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #2980b9;
+            background: var(--md-sys-color-primary-container);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .chat-container {
+                height: calc(100vh - 20px);
+                border-radius: 20px;
+            }
+            
+            .chat-message {
+                max-width: 90%;
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+            
+            .chat-input {
+                padding: 14px 16px;
+            }
+            
+            .send-button {
+                width: 48px;
+                height: 48px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>PASHAKAD</h2>
-        <ul>
-            <li><a href="#home"><i class="fas fa-home"></i> Главная</a></li>
-            <li><a href="#tutorials"><i class="fas fa-book"></i> Уроки</a></li>
-            <li><a href="#resources"><i class="fas fa-link"></i> Ресурсы</a></li>
-            <li><a href="#about"><i class="fas fa-info-circle"></i> О нас</a></li>
-        </ul>
-    </div>
-
-    <div class="main-content">
-        <section id="home">
-            <h1>Добро пожаловать в PASHAKAD!</h1>
-            <p>Ваш лучший ресурс для обучения Archicad. Мы предлагаем множество уроков, руководств и советов для начинающих и профессионалов.</p>
-        </section>
-
-        <section id="tutorials">
-            <h1>Обучающие материалы по Archicad</h1>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Поиск уроков..." autocomplete="off">
-            </div>
-            <div class="tutorials" id="tutorialsContainer">
-                <div class="tutorial-card" data-keywords="основы интерфейс начинающие">
-                    <h3>Основы Archicad</h3>
-                    <button class="toggle-button" onclick="toggleTutorial(this)"><i class="fas fa-chevron-down"></i> Открыть</button>
-                    <div class="tutorial-content">
-                        <p>Archicad — это мощное программное обеспечение для BIM-проектирования...</p>
-                        <!-- Остальное содержимое урока -->
-                    </div>
-                </div>
-                <!-- Остальные карточки уроков -->
-            </div>
-        </section>
-
-        <section id="resources">
-            <h1>Полезные ресурсы</h1>
-            <p>Ознакомьтесь с дополнительными материалами и сообществами по Archicad:</p>
-            <ul>
-                <li><a href="https://community.graphisoft.com/" target="_blank" rel="noopener noreferrer">Официальное сообщество Graphisoft</a></li>
-                <!-- Остальные ресурсы -->
-            </ul>
-        </section>
-
-        <section id="about">
-            <h1>О нас</h1>
-            <p>PASHAKAD — это образовательная платформа...</p>
-            <!-- Остальное содержимое раздела -->
-        </section>
-    </div>
-
-    <div class="chat-icon" onclick="toggleChat()">
-        <i class="fas fa-comment"></i>
-    </div>
-
-    <div class="chat-window" id="chatWindow">
+    <div class="chat-container">
         <div class="chat-header">
-            ИИ-помощник по Archicad
-            <button class="clear-history" onclick="clearChatHistory()">Очистить</button>
+            <span class="material-symbols-outlined">architecture</span>
+            <h1>Archicad Assistant</h1>
         </div>
+        
         <div class="chat-body" id="chatBody">
-            <div class="chat-message bot">Привет! Я твой помощник по Archicad. Задавай вопросы, и я помогу! 😊</div>
+            <div class="chat-message bot">
+                Привет! Я ваш помощник по Archicad. Задавайте любые вопросы о программе, и я постараюсь помочь!
+            </div>
         </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Задайте вопрос..." autocomplete="off">
-            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Задайте вопрос..." autocomplete="off">
+            <button class="send-button" id="sendButton">
+                <span class="material-symbols-outlined">send</span>
+            </button>
         </div>
     </div>
 
     <script>
-        // Toggle tutorial content
-        function toggleTutorial(button) {
-            const content = button.nextElementSibling;
-            if (!content) return;
-            const isOpen = content.classList.contains('show');
-            content.classList.toggle('show');
-            button.innerHTML = isOpen ? '<i class="fas fa-chevron-down"></i> Открыть' : '<i class="fas fa-chevron-up"></i> Свернуть';
-        }
-
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        const tutorialsContainer = document.getElementById('tutorialsContainer');
-        const tutorialCards = document.querySelectorAll('.tutorial-card');
-
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            tutorialCards.forEach(card => {
-                const keywords = card.getAttribute('data-keywords').toLowerCase();
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                if (searchTerm === '' || keywords.includes(searchTerm) || title.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-
-        // Initialize all cards as visible
-        tutorialCards.forEach(card => {
-            card.style.display = 'block';
-            const button = card.querySelector('.toggle-button');
-            if (button) {
-                button.innerHTML = '<i class="fas fa-chevron-down"></i> Открыть';
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        
+        // Отправка сообщения при нажатии Enter
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && chatInput.value.trim()) {
+                sendMessage();
             }
         });
-
-        // Chat functionality
-        function toggleChat() {
-            const chatWindow = document.getElementById('chatWindow');
-            chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
-            if (chatWindow.style.display === 'flex') {
-                loadChatHistory();
-                document.getElementById('chatInput').focus();
+        
+        // Отправка сообщения при клике на кнопку
+        sendButton.addEventListener('click', () => {
+            if (chatInput.value.trim()) {
+                sendMessage();
             }
-        }
-
-        function saveChatHistory() {
-            const chatBody = document.getElementById('chatBody');
-            const messages = Array.from(chatBody.querySelectorAll('.chat-message')).map(msg => ({
-                role: msg.classList.contains('user') ? 'user' : 'bot',
-                content: msg.textContent,
-                fontClass: msg.classList.contains('bot') ? Array.from(msg.classList).find(cls => cls.startsWith('font-')) || '' : ''
-            }));
-            localStorage.setItem('chatHistory', JSON.stringify(messages));
-        }
-
-        function loadChatHistory() {
-            const chatBody = document.getElementById('chatBody');
-            const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
-            
-            // Clear existing messages except the first bot message
-            while (chatBody.children.length > 1) {
-                chatBody.removeChild(chatBody.lastChild);
-            }
-            
-            // Add history messages
-            history.forEach((msg, index) => {
-                if (index === 0 && msg.role === 'bot' && msg.content.includes('Привет! Я твой помощник')) {
-                    return;
-                }
-                
-                const msgDiv = document.createElement('div');
-                msgDiv.className = `chat-message ${msg.role} ${msg.fontClass || ''}`;
-                msgDiv.textContent = msg.content;
-                chatBody.appendChild(msgDiv);
-            });
-            
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function clearChatHistory() {
-            localStorage.removeItem('chatHistory');
-            const chatBody = document.getElementById('chatBody');
-            while (chatBody.children.length > 1) {
-                chatBody.removeChild(chatBody.lastChild);
-            }
-        }
-
+        });
+        
         async function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const chatBody = document.getElementById('chatBody');
-            const userMessage = chatInput.value.trim();
-
-            if (!userMessage) return;
-
-            // Add user message to chat
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.className = 'chat-message user';
-            userMsgDiv.textContent = userMessage;
-            chatBody.appendChild(userMsgDiv);
-
-            // Clear input and save history
+            const message = chatInput.value.trim();
             chatInput.value = '';
-            chatBody.scrollTop = chatBody.scrollHeight;
-            saveChatHistory();
-
-            // Show typing indicator
-            const typingIndicator = document.createElement('div');
-            typingIndicator.className = 'chat-message bot';
-            typingIndicator.innerHTML = '<i>Печатает...</i>';
-            chatBody.appendChild(typingIndicator);
-            chatBody.scrollTop = chatBody.scrollHeight;
-
+            
+            // Добавляем сообщение пользователя
+            addMessage(message, 'user');
+            
+            // Показываем индикатор набора сообщения
+            showTypingIndicator();
+            
             try {
-                const response = await getAIResponse(userMessage);
-                
-                // Remove typing indicator
-                chatBody.removeChild(typingIndicator);
-                
-                // Add bot response
-                const botMsgDiv = document.createElement('div');
-                botMsgDiv.className = `chat-message bot ${response.fontClass || ''}`;
-                botMsgDiv.textContent = response.content;
-                chatBody.appendChild(botMsgDiv);
+                const response = await getBotResponse(message);
+                addMessage(response.content, 'bot');
             } catch (error) {
-                // Remove typing indicator
-                chatBody.removeChild(typingIndicator);
-                
-                // Show error message
-                const errorMsgDiv = document.createElement('div');
-                errorMsgDiv.className = 'chat-message bot';
-                errorMsgDiv.textContent = 'Извините, произошла ошибка. Пожалуйста, попробуйте еще раз.';
-                chatBody.appendChild(errorMsgDiv);
-                
+                addMessage('Произошла ошибка. Пожалуйста, попробуйте еще раз.', 'bot');
                 console.error('Error:', error);
             }
-
-            chatBody.scrollTop = chatBody.scrollHeight;
-            saveChatHistory();
+            
+            // Убираем индикатор набора
+            hideTypingIndicator();
         }
-
-        async function getAIResponse(userMessage) {
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatBody.appendChild(typingDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        async function getBotResponse(userMessage) {
             try {
-                const response = await fetch('/api/proxy', {
+                const response = await fetch('/api/groq-proxy', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: 'llama3-70b-8192',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'Ты эксперт по Archicad, помогаешь пользователям с вопросами о программе, включая интерфейс, инструменты, создание моделей, BIM, рендеринг и другие функции. Отвечай кратко, профессионально и на русском языке. Добавляй к ответу CSS-класс шрифта в формате [font-class], выбирая случайно из: [font-roboto], [font-open-sans], [font-montserrat], [font-source-code-pro].'
-                            },
-                            {
-                                role: 'user',
-                                content: userMessage
-                            }
-                        ],
-                        max_tokens: 512
+                        message: userMessage
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                if (!data.choices || !data.choices[0]) {
-                    throw new Error('Invalid API response');
-                }
-
-                let botMessage = data.choices[0].message.content;
-                let fontClass = '';
-
-                // Extract font class from response
-                const fontMatch = botMessage.match(/\[font-[^\]]+\]/);
-                if (fontMatch) {
-                    fontClass = fontMatch[0].replace(/[\[\]]/g, '');
-                    botMessage = botMessage.replace(fontMatch[0], '').trim();
-                }
-
-                return { content: botMessage, fontClass };
+                return { content: data.response };
             } catch (error) {
-                console.error('API error:', error);
+                console.error('Error fetching from Groq:', error);
+                // Fallback to mock response if API fails
                 return getMockResponse(userMessage);
             }
         }
-
+        
         function getMockResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
-            const fonts = ['font-roboto', 'font-open-sans', 'font-montserrat', 'font-source-code-pro'];
-            const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
             
-            if (lowerMessage.includes('стена') || lowerMessage.includes('wall')) {
+            if (lowerMessage.includes('стен') || lowerMessage.includes('wall')) {
                 return {
-                    content: `Чтобы создать стену в Archicad, выберите инструмент Wall в панели инструментов, задайте параметры (толщину, материал, высоту) и нарисуйте стену в рабочей области.`,
-                    fontClass: randomFont
+                    content: "Для создания стены в Archicad используйте инструмент Wall. Выберите его на панели инструментов, задайте параметры (толщину, материал) и нарисуйте стену в рабочей области."
                 };
-            } else if (lowerMessage.includes('3d') || lowerMessage.includes('модель')) {
+            } else if (lowerMessage.includes('3d') || lowerMessage.includes('модел') || lowerMessage.includes('3д')) {
                 return {
-                    content: `Для создания 3D-модели используйте инструменты Wall, Slab, Roof. Перейдите в Навигатор → 3D для просмотра модели.`,
-                    fontClass: randomFont
+                    content: "Для работы с 3D-моделями переключитесь в 3D-вид через навигатор. Используйте инструменты Wall, Slab и Roof для создания основных элементов."
                 };
-            } else if (lowerMessage.includes('bim') || lowerMessage.includes('бим')) {
+            } else if (lowerMessage.includes('окн') || lowerMessage.includes('window')) {
                 return {
-                    content: `BIM в Archicad позволяет управлять данными модели. Используйте Properties для добавления параметров и Schedules для создания спецификаций.`,
-                    fontClass: randomFont
+                    content: "Инструмент Window позволяет добавлять окна. Выберите его, затем кликните на стену для размещения. В настройках можно изменить размеры и тип окна."
                 };
             } else {
                 return {
-                    content: `Извините, я не понял ваш вопрос. Уточните, например: "Как создать стену?" или "Как настроить BIM?"`,
-                    fontClass: randomFont
+                    content: "Я не совсем понял ваш вопрос. Можете уточнить? Например, спросите о создании стен, окон или 3D-моделирования."
                 };
             }
         }
-
-        // Handle Enter key in chat input
-        document.getElementById('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Close chat when clicking outside
-        document.addEventListener('click', (e) => {
-            const chatWindow = document.getElementById('chatWindow');
-            const chatIcon = document.querySelector('.chat-icon');
-            
-            if (chatWindow.style.display === 'flex' && 
-                !chatWindow.contains(e.target) && 
-                !chatIcon.contains(e.target)) {
-                chatWindow.style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>
