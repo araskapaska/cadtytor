@@ -12,32 +12,9 @@
             --md-sys-color-on-primary: #381E72;
             --md-sys-color-primary-container: #4F378B;
             --md-sys-color-on-primary-container: #EADDFF;
-            --md-sys-color-secondary: #CCC2DC;
-            --md-sys-color-on-secondary: #332D41;
-            --md-sys-color-secondary-container: #4A4458;
-            --md-sys-color-on-secondary-container: #E8DEF8;
-            --md-sys-color-tertiary: #EFB8C8;
-            --md-sys-color-on-tertiary: #492532;
-            --md-sys-color-tertiary-container: #633B48;
-            --md-sys-color-on-tertiary-container: #FFD8E4;
-            --md-sys-color-error: #F2B8B5;
-            --md-sys-color-error-container: #8C1D18;
-            --md-sys-color-on-error: #601410;
-            --md-sys-color-on-error-container: #F9DEDC;
-            --md-sys-color-background: #1C1B1F;
-            --md-sys-color-on-background: #E6E1E5;
             --md-sys-color-surface: #1C1B1F;
             --md-sys-color-on-surface: #E6E1E5;
             --md-sys-color-surface-variant: #49454F;
-            --md-sys-color-on-surface-variant: #CAC4D0;
-            --md-sys-color-outline: #938F99;
-            --md-sys-color-inverse-on-surface: #1C1B1F;
-            --md-sys-color-inverse-surface: #E6E1E5;
-            --md-sys-color-inverse-primary: #6750A4;
-            --md-sys-color-shadow: #000000;
-            --md-sys-color-surface-tint: #D0BCFF;
-            --md-sys-color-outline-variant: #49454F;
-            --md-sys-color-scrim: #000000;
         }
 
         * {
@@ -48,23 +25,20 @@
         }
 
         body {
-            background-color: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-background);
-            font-weight: 500;
-            line-height: 1.6;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             padding: 20px;
         }
 
         .chat-container {
-            max-width: 800px;
             width: 100%;
-            margin: 0 auto;
+            max-width: 800px;
+            height: calc(100vh - 40px);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 40px);
             background-color: var(--md-sys-color-surface);
             border-radius: 28px;
             overflow: hidden;
@@ -80,16 +54,6 @@
             gap: 12px;
         }
 
-        .chat-header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            flex-grow: 1;
-        }
-
-        .chat-header .material-symbols-outlined {
-            font-size: 28px;
-        }
-
         .chat-body {
             flex: 1;
             padding: 20px;
@@ -103,39 +67,26 @@
             max-width: 80%;
             padding: 16px 20px;
             border-radius: 24px;
-            font-size: 16px;
-            line-height: 1.5;
-            position: relative;
             animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .chat-message.user {
             background-color: var(--md-sys-color-primary-container);
             color: var(--md-sys-color-on-primary-container);
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
-            font-weight: 500;
         }
 
         .chat-message.bot {
             background-color: var(--md-sys-color-surface-variant);
-            color: var(--md-sys-color-on-surface-variant);
+            color: var(--md-sys-color-on-surface);
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            font-weight: 400;
         }
 
         .chat-input-container {
             padding: 16px;
-            background-color: var(--md-sys-color-surface);
-            border-top: 1px solid var(--md-sys-color-outline-variant);
             display: flex;
             gap: 12px;
+            border-top: 1px solid var(--md-sys-color-surface-variant);
         }
 
         .chat-input {
@@ -145,15 +96,6 @@
             border: none;
             background-color: var(--md-sys-color-surface-variant);
             color: var(--md-sys-color-on-surface);
-            font-size: 16px;
-            font-weight: 500;
-            outline: none;
-            transition: background-color 0.2s;
-        }
-
-        .chat-input:focus {
-            background-color: var(--md-sys-color-surface-variant);
-            box-shadow: 0 0 0 2px var(--md-sys-color-primary);
         }
 
         .send-button {
@@ -163,20 +105,7 @@
             background-color: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
             border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .send-button:hover {
-            transform: scale(1.05);
-            background-color: var(--md-sys-color-primary-container);
-        }
-
-        .send-button .material-symbols-outlined {
-            font-size: 24px;
         }
 
         .typing-indicator {
@@ -184,73 +113,21 @@
             gap: 8px;
             padding: 16px 20px;
             background-color: var(--md-sys-color-surface-variant);
-            color: var(--md-sys-color-on-surface-variant);
             border-radius: 24px;
             align-self: flex-start;
-            font-weight: 400;
         }
 
         .typing-dot {
             width: 8px;
             height: 8px;
-            background-color: var(--md-sys-color-on-surface-variant);
+            background-color: var(--md-sys-color-on-surface);
             border-radius: 50%;
             animation: typingAnimation 1.4s infinite ease-in-out;
         }
 
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
         @keyframes typingAnimation {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--md-sys-color-surface-variant);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--md-sys-color-primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--md-sys-color-primary-container);
-        }
-
-        /* Responsive styles */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            
-            .chat-container {
-                height: calc(100vh - 20px);
-                border-radius: 20px;
-            }
-            
-            .chat-message {
-                max-width: 90%;
-                padding: 12px 16px;
-                font-size: 15px;
-            }
-            
-            .chat-input {
-                padding: 14px 16px;
-            }
-            
-            .send-button {
-                width: 48px;
-                height: 48px;
-            }
         }
     </style>
 </head>
@@ -263,12 +140,12 @@
         
         <div class="chat-body" id="chatBody">
             <div class="chat-message bot">
-                Привет! Я ваш помощник по Archicad. Задавайте любые вопросы о программе, и я постараюсь помочь!
+                Привет! Я ваш помощник по Archicad. Задавайте любые вопросы о программе!
             </div>
         </div>
         
         <div class="chat-input-container">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Задайте вопрос..." autocomplete="off">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Задайте вопрос...">
             <button class="send-button" id="sendButton">
                 <span class="material-symbols-outlined">send</span>
             </button>
@@ -280,115 +157,91 @@
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
         
-        // Отправка сообщения при нажатии Enter
+        // Обработчики событий
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && chatInput.value.trim()) {
-                sendMessage();
-            }
+            if (e.key === 'Enter') sendMessage();
         });
-        
-        // Отправка сообщения при клике на кнопку
-        sendButton.addEventListener('click', () => {
-            if (chatInput.value.trim()) {
-                sendMessage();
-            }
-        });
+        sendButton.addEventListener('click', sendMessage);
         
         async function sendMessage() {
             const message = chatInput.value.trim();
+            if (!message) return;
+            
             chatInput.value = '';
-            
-            // Добавляем сообщение пользователя
             addMessage(message, 'user');
-            
-            // Показываем индикатор набора сообщения
-            showTypingIndicator();
+            showTyping();
             
             try {
-                const response = await getBotResponse(message);
-                addMessage(response.content, 'bot');
+                const response = await fetchGroqAPI(message);
+                addMessage(response, 'bot');
             } catch (error) {
-                addMessage('Произошла ошибка. Пожалуйста, попробуйте еще раз.', 'bot');
-                console.error('Error:', error);
+                addMessage("Извините, сервис временно недоступен. Попробуйте позже.", 'bot');
+                console.error("API Error:", error);
             }
             
-            // Убираем индикатор набора
-            hideTypingIndicator();
+            hideTyping();
         }
         
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${sender}`;
-            messageDiv.textContent = text;
-            chatBody.appendChild(messageDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-        
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            chatBody.appendChild(typingDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-        
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-        
-        async function getBotResponse(userMessage) {
+        async function fetchGroqAPI(message) {
+            // Вариант 1: Прямое подключение (будет работать только если Groq разрешит CORS)
+            // Не рекомендуется для продакшена из-за раскрытия API ключа
             try {
-                const response = await fetch('/api/groq-proxy', {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer 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'
                     },
                     body: JSON.stringify({
-                        message: userMessage
+                        model: 'llama3-70b-8192',
+                        messages: [{
+                            role: 'system',
+                            content: 'Ты эксперт по Archicad. Отвечай кратко на русском языке.'
+                        }, {
+                            role: 'user',
+                            content: message
+                        }],
+                        max_tokens: 1024
                     })
                 });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
+                
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
                 const data = await response.json();
-                return { content: data.response };
+                return data.choices[0].message.content;
             } catch (error) {
-                console.error('Error fetching from Groq:', error);
-                // Fallback to mock response if API fails
-                return getMockResponse(userMessage);
+                // Если прямой запрос не работает, используем моковые данные
+                return getMockResponse(message);
             }
         }
         
-        function getMockResponse(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
-            
-            if (lowerMessage.includes('стен') || lowerMessage.includes('wall')) {
-                return {
-                    content: "Для создания стены в Archicad используйте инструмент Wall. Выберите его на панели инструментов, задайте параметры (толщину, материал) и нарисуйте стену в рабочей области."
-                };
-            } else if (lowerMessage.includes('3d') || lowerMessage.includes('модел') || lowerMessage.includes('3д')) {
-                return {
-                    content: "Для работы с 3D-моделями переключитесь в 3D-вид через навигатор. Используйте инструменты Wall, Slab и Roof для создания основных элементов."
-                };
-            } else if (lowerMessage.includes('окн') || lowerMessage.includes('window')) {
-                return {
-                    content: "Инструмент Window позволяет добавлять окна. Выберите его, затем кликните на стену для размещения. В настройках можно изменить размеры и тип окна."
-                };
-            } else {
-                return {
-                    content: "Я не совсем понял ваш вопрос. Можете уточнить? Например, спросите о создании стен, окон или 3D-моделирования."
-                };
-            }
+        function getMockResponse(message) {
+            const lowerMsg = message.toLowerCase();
+            if (lowerMsg.includes('стен')) return "Для создания стены используйте инструмент Wall. Выберите его, задайте параметры и нарисуйте стену.";
+            if (lowerMsg.includes('окн')) return "Инструмент Window позволяет добавлять окна. Кликните на стену для размещения.";
+            return "Я не понял вопрос. Спросите о конкретном инструменте Archicad.";
+        }
+        
+        // Вспомогательные функции UI
+        function addMessage(text, sender) {
+            const msgEl = document.createElement('div');
+            msgEl.className = `chat-message ${sender}`;
+            msgEl.textContent = text;
+            chatBody.appendChild(msgEl);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        
+        function showTyping() {
+            const typingEl = document.createElement('div');
+            typingEl.className = 'typing-indicator';
+            typingEl.id = 'typingIndicator';
+            typingEl.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+            chatBody.appendChild(typingEl);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        
+        function hideTyping() {
+            const typingEl = document.getElementById('typingIndicator');
+            if (typingEl) typingEl.remove();
         }
     </script>
 </body>
