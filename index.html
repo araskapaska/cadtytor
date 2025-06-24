@@ -78,7 +78,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-right: 36px;
+            margin-right: 36px; /* Сдвиг влево на 36px */
         }
         .theme-toggle .material-symbols-outlined {
             font-size: 18px;
@@ -86,19 +86,6 @@
         .theme-toggle-label {
             color: var(--on-primary);
             font-size: 14px;
-        }
-        .clear-history-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--on-primary);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .clear-history-button .material-symbols-outlined {
-            font-size: 18px;
         }
         .font-size-control {
             display: flex;
@@ -291,10 +278,6 @@
                     <span class="material-symbols-outlined">dark_mode</span>
                     <span class="theme-toggle-label">Сменить тему</span>
                 </button>
-                <button class="clear-history-button" id="clearHistory" aria-label="Очистить историю">
-                    <span class="material-symbols-outlined">delete</span>
-                    <span>Очистить чат</span>
-                </button>
                 <div class="font-size-control">
                     <span class="material-symbols-outlined">format_size</span>
                     <label for="fontSizeRange">Размер шрифта:</label>
@@ -321,7 +304,6 @@
         const sendButton = document.getElementById('sendButton');
         const themeToggle = document.getElementById('themeToggle');
         const fontSizeRange = document.getElementById('fontSizeRange');
-        const clearHistoryButton = document.getElementById('clearHistory');
 
         // Инициализация темы
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -332,24 +314,6 @@
         const savedFontSize = localStorage.getItem('fontSize') || '16';
         fontSizeRange.value = savedFontSize;
         document.documentElement.style.setProperty('--font-size', `${savedFontSize}px`);
-
-        // Инициализация истории чата
-        let messageHistory = JSON.parse(localStorage.getItem('chatHistory')) || [
-            { role: 'system', content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.' },
-            { role: 'assistant', content: 'Привет! Я ваш помощник по Archicad, работающий на базе ИИ. Задавайте вопросы о программе!' }
-        ];
-
-        // Загрузка истории чата
-        function loadChatHistory() {
-            // Очищаем чат перед загрузкой
-            chatBody.innerHTML = '';
-            // Загружаем сообщения, кроме системного
-            messageHistory.forEach(msg => {
-                if (msg.role !== 'system') {
-                    addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
-                }
-            });
-        }
 
         // Переключение темы
         themeToggle.addEventListener('click', () => {
@@ -367,16 +331,6 @@
             localStorage.setItem('fontSize', fontSize);
         });
 
-        // Очистка истории
-        clearHistoryButton.addEventListener('click', () => {
-            messageHistory = [
-                { role: 'system', content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.' },
-                { role: 'assistant', content: 'Привет! Я ваш помощник по Archicad, работающий на базе ИИ. Задавайте вопросы о программе!' }
-            ];
-            localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
-            loadChatHistory();
-        });
-
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
@@ -390,11 +344,6 @@
 
             chatInput.value = '';
             addMessage(message, 'user');
-
-            // Сохранение сообщения пользователя в истории
-            messageHistory.push({ role: 'user', content: message });
-            localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
-
             showTyping();
 
             try {
@@ -406,7 +355,16 @@
                     },
                     body: JSON.stringify({
                         model: 'llama3-70b-8192',
-                        messages: messageHistory,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.'
+                            },
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
                         max_tokens: 1024,
                         temperature: 0.7
                     })
@@ -414,20 +372,14 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`Ошибка API: ${response.status}, ${JSON.stringify(errorData)}`);
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${JSON.stringify(errorData)}`);
                 }
 
                 const data = await response.json();
                 const botMessage = marked.parse(data.choices[0].message.content);
                 addMessage(botMessage, 'bot');
-                // Сохранение ответа бота в истории
-                messageHistory.push({ role: 'assistant', content: data.choices[0].message.content });
-                localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
             } catch (error) {
-                const errorMessage = 'Извините, не удалось связаться с сервером. Попробуйте еще раз.';
-                addMessage(errorMessage, 'bot');
-                messageHistory.push({ role: 'assistant', content: errorMessage });
-                localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
+                addMessage(`Извините, произошла ошибка: ${error.message}`, 'bot');
                 console.error("Ошибка при получении ответа от Groq:", error);
             } finally {
                 hideTyping();
@@ -463,9 +415,6 @@
                 typingEl.remove();
             }
         }
-
-        // Загрузка истории при старте
-        loadChatHistory();
     </script>
 </body>
 </html>
