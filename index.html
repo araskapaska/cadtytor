@@ -78,7 +78,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-right: 36px; /* Сдвиг влево на 36px */
+            margin-right: 36px;
         }
         .theme-toggle .material-symbols-outlined {
             font-size: 18px;
@@ -276,7 +276,7 @@
             <div class="chat-header-controls">
                 <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
                     <span class="material-symbols-outlined">dark_mode</span>
-                    <span class="theme-toggle-label">Сменить тему(клик)</span>
+                    <span class="theme-toggle-label">Сменить тему</span>
                 </button>
                 <div class="font-size-control">
                     <span class="material-symbols-outlined">format_size</span>
@@ -315,6 +315,21 @@
         fontSizeRange.value = savedFontSize;
         document.documentElement.style.setProperty('--font-size', `${savedFontSize}px`);
 
+        // Инициализация истории чата
+        let messageHistory = JSON.parse(localStorage.getItem('chatHistory')) || [
+            { role: 'system', content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.' },
+            { role: 'assistant', content: 'Привет! Я ваш помощник по Archicad, работающий на базе ИИ. Задавайте вопросы о программе!' }
+        ];
+
+        // Загрузка истории чата
+        function loadChatHistory() {
+            messageHistory.forEach(msg => {
+                if (msg.role !== 'system') {
+                    addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
+                }
+            });
+        }
+
         // Переключение темы
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -344,6 +359,11 @@
 
             chatInput.value = '';
             addMessage(message, 'user');
+
+            // Сохранение сообщения пользователя в истории
+            messageHistory.push({ role: 'user', content: message });
+            localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
+
             showTyping();
 
             try {
@@ -355,16 +375,7 @@
                     },
                     body: JSON.stringify({
                         model: 'llama3-70b-8192',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.'
-                            },
-                            {
-                                role: 'user',
-                                content: message
-                            }
-                        ],
+                        messages: messageHistory,
                         max_tokens: 1024,
                         temperature: 0.7
                     })
@@ -378,8 +389,13 @@
                 const data = await response.json();
                 const botMessage = marked.parse(data.choices[0].message.content);
                 addMessage(botMessage, 'bot');
+                // Сохранение ответа бота в истории
+                messageHistory.push({ role: 'assistant', content: data.choices[0].message.content });
+                localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
             } catch (error) {
                 addMessage(`Извините, произошла ошибка: ${error.message}`, 'bot');
+                messageHistory.push({ role: 'assistant', content: `Извините, произошла ошибка: ${error.message}` });
+                localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
                 console.error("Ошибка при получении ответа от Groq:", error);
             } finally {
                 hideTyping();
@@ -415,6 +431,9 @@
                 typingEl.remove();
             }
         }
+
+        // Загрузка истории при старте
+        loadChatHistory();
     </script>
 </body>
 </html>
