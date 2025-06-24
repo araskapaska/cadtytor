@@ -1,45 +1,59 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archicad Assistant</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
+            --font-size: 16px;
+        }
+        [data-theme="dark"] {
             --primary: #D0BCFF;
             --on-primary: #381E72;
             --surface: #1C1B1F;
             --on-surface: #E6E1E5;
             --surface-variant: #49454F;
+            --scrollbar-track: #2A2A2E;
+            --scrollbar-thumb: #D0BCFF;
+            --scrollbar-thumb-hover: #B0A0FF;
+        }
+        [data-theme="light"] {
+            --primary: #6200EA;
+            --on-primary: #FFFFFF;
+            --surface: #F5F5F5;
+            --on-surface: #1C1B1F;
+            --surface-variant: #E0E0E0;
+            --scrollbar-track: #E0E0E0;
+            --scrollbar-thumb: #6200EA;
+            --scrollbar-thumb-hover: #7C4DFF;
         }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Geologica', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
         body {
             background-color: var(--surface);
             color: var(--on-surface);
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .chat-container {
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-            height: calc(100vh - 40px);
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             background-color: var(--surface);
-            border-radius: 28px;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .chat-header {
             padding: 20px;
@@ -49,6 +63,64 @@
             align-items: center;
             gap: 12px;
         }
+        .chat-header-controls {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--on-primary);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .font-size-control label {
+            color: var(--on-primary);
+            font-size: 14px;
+        }
+        .font-size-control input[type="range"] {
+            width: 80px;
+            -webkit-appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .font-size-control input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            background: var(--on-primary);
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+        .font-size-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            margin-top: -4px;
+            width: 14px;
+            height: 14px;
+            background: var(--on-primary);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+        .font-size-control input[type="range"]::-moz-range-track {
+            height: 6px;
+            background: var(--on-primary);
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+        .font-size-control input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: var(--on-primary);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
         .chat-body {
             flex: 1;
             padding: 20px;
@@ -56,6 +128,21 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            font-size: var(--font-size);
+        }
+        .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-body::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 4px;
+        }
+        .chat-body::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+        .chat-body::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
         }
         .chat-message {
             max-width: 80%;
@@ -63,6 +150,7 @@
             border-radius: 24px;
             animation: fadeIn 0.3s ease-out;
             word-wrap: break-word;
+            font-size: var(--font-size);
         }
         .chat-message.user {
             background-color: var(--primary);
@@ -73,6 +161,9 @@
             background-color: var(--surface-variant);
             color: var(--on-surface);
             align-self: flex-start;
+        }
+        .chat-message.bot p {
+            margin: 0;
         }
         .chat-input-container {
             padding: 16px;
@@ -89,6 +180,7 @@
             background-color: var(--surface-variant);
             color: var(--on-surface);
             outline: none;
+            font-size: var(--font-size);
         }
         .send-button {
             width: 56px;
@@ -125,21 +217,14 @@
             animation-delay: 0.4s;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(0); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
+            0%, 60%, 100% { transform: 0; }
+            to { opacity: translateY(-5px); }
         }
         @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .chat-container {
-                height: calc(100vh - 20px);
-                border-radius: 16px;
-            }
             .chat-header {
                 padding: 15px;
             }
@@ -168,6 +253,15 @@
         <div class="chat-header">
             <span class="material-symbols-outlined">architecture</span>
             <h1>Archicad Assistant</h1>
+            <div class="chat-header-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+                    <span class="material-symbols-outlined">dark_mode</span>
+                </button>
+                <div class="font-size-control">
+                    <label for="fontSizeRange">Размер шрифта:</label>
+                    <input type="range" id="fontSizeRange" min="12" max="100" value="16">
+                </div>
+            </div>
         </div>
         <div class="chat-body" id="chatBody">
             <div class="chat-message bot">
@@ -186,6 +280,34 @@
         const chatBody = document.getElementById('chatBody');
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
+        const themeToggle = document.getElementById('themeToggle');
+        const fontSizeRange = document.getElementById('fontSizeRange');
+
+        // Инициализация темы
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.querySelector('span').textContent = savedTheme === 'dark' ? 'dark_mode' : 'light_mode';
+
+        // Инициализация размера шрифта
+        const savedFontSize = localStorage.getItem('fontSize') || '16';
+        fontSizeRange.value = savedFontSize;
+        document.documentElement.style.setProperty('--font-size', `${savedFontSize}px`);
+
+        // Переключение темы
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggle.querySelector('span').textContent = newTheme === 'dark' ? 'dark_mode' : 'light_mode';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Изменение размера шрифта
+        fontSizeRange.addEventListener('input', () => {
+            const fontSize = fontSizeRange.value;
+            document.documentElement.style.setProperty('--font-size', `${fontSize}px`);
+            localStorage.setItem('fontSize', fontSize);
+        });
 
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -232,7 +354,7 @@
                 }
 
                 const data = await response.json();
-                const botMessage = data.choices[0].message.content;
+                const botMessage = marked.parse(data.choices[0].message.content);
                 addMessage(botMessage, 'bot');
             } catch (error) {
                 addMessage(`Извините, произошла ошибка: ${error.message}`, 'bot');
@@ -242,10 +364,14 @@
             }
         }
 
-        function addMessage(text, sender) {
+        function addMessage(content, sender) {
             const msgEl = document.createElement('div');
             msgEl.className = `chat-message ${sender}`;
-            msgEl.textContent = text;
+            if (sender === 'bot') {
+                msgEl.innerHTML = content;
+            } else {
+                msgEl.textContent = content;
+            }
             chatBody.appendChild(msgEl);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
