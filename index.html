@@ -25,13 +25,13 @@
             color: var(--on-surface);
             min-height: 100vh;
             padding: 20px;
-            display: flex; /* Используем flexbox для центрирования */
+            display: flex;
             justify-content: center;
             align-items: center;
         }
         .chat-container {
             max-width: 800px;
-            width: 100%; /* Делаем его отзывчивым */
+            width: 100%;
             margin: 0 auto;
             height: calc(100vh - 40px);
             display: flex;
@@ -62,7 +62,7 @@
             padding: 16px 20px;
             border-radius: 24px;
             animation: fadeIn 0.3s ease-out;
-            word-wrap: break-word; /* Обеспечивает перенос длинных слов */
+            word-wrap: break-word;
         }
         .chat-message.user {
             background-color: var(--primary);
@@ -79,7 +79,7 @@
             display: flex;
             gap: 12px;
             border-top: 1px solid var(--surface-variant);
-            background-color: var(--surface); /* Убедитесь, что фон соответствует контейнеру */
+            background-color: var(--surface);
         }
         .chat-input {
             flex: 1;
@@ -88,7 +88,7 @@
             border: none;
             background-color: var(--surface-variant);
             color: var(--on-surface);
-            outline: none; /* Убираем обводку при фокусе */
+            outline: none;
         }
         .send-button {
             width: 56px;
@@ -98,10 +98,10 @@
             color: var(--on-primary);
             border: none;
             cursor: pointer;
-            display: flex; /* Центрируем иконку */
+            display: flex;
             justify-content: center;
             align-items: center;
-            flex-shrink: 0; /* Предотвращаем сжатие кнопки */
+            flex-shrink: 0;
         }
         .typing-indicator {
             display: flex;
@@ -118,7 +118,6 @@
             border-radius: 50%;
             animation: typingAnimation 1.4s infinite ease-in-out;
         }
-        /* Задержка для последовательного появления точек */
         .typing-dot:nth-child(2) {
             animation-delay: 0.2s;
         }
@@ -133,8 +132,6 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
         }
-
-        /* Адаптивные настройки */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -174,7 +171,7 @@
         </div>
         <div class="chat-body" id="chatBody">
             <div class="chat-message bot">
-                Привет! Я ваш помощник по Archicad. Задавайте вопросы о программе!
+                Привет! Я ваш помощник по Archicad, работающий на базе ИИ.Задавайте вопросы о программе!
             </div>
         </div>
         <div class="chat-input-container">
@@ -190,79 +187,83 @@
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
 
-        // Добавляем обработчик события для кнопки Enter в поле ввода
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 sendMessage();
             }
         });
-        // Добавляем обработчик события для кнопки отправки
         sendButton.addEventListener('click', sendMessage);
 
         async function sendMessage() {
             const message = chatInput.value.trim();
-            if (!message) return; // Если сообщение пустое, ничего не делаем
+            if (!message) return;
 
-            chatInput.value = ''; // Очищаем поле ввода
-            addMessage(message, 'user'); // Добавляем сообщение пользователя
-            showTyping(); // Показываем индикатор набора текста
+            chatInput.value = '';
+            addMessage(message, 'user');
+            showTyping();
 
             try {
-                // ВНИМАНИЕ: Здесь происходит вызов API.
-                // Этот URL (`/api/groq-proxy`) должен быть настроен на вашем сервере
-                // для перенаправления запросов к реальному AI API (например, Groq).
-                const response = await fetch('/api/groq-proxy', {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer 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'
                     },
-                    body: JSON.stringify({ message: message }) // Отправляем сообщение
+                    body: JSON.stringify({
+                        model: 'llama-3.1-70b-versatile',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы на русском языке.'
+                            },
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        max_tokens: 500,
+                        temperature: 0.7
+                    })
                 });
 
                 if (!response.ok) {
-                    // Если ответ не успешный (например, 404, 500), выбрасываем ошибку
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const data = await response.json(); // Парсим JSON ответ
-                addMessage(data.response, 'bot'); // Добавляем ответ бота
+                const data = await response.json();
+                const botMessage = data.choices[0].message.content;
+                addMessage(botMessage, 'bot');
             } catch (error) {
-                // Обработка ошибок при запросе к API
                 addMessage("Извините, сервис временно недоступен или произошла ошибка.", 'bot');
-                console.error("Ошибка при получении ответа от ИИ:", error);
+                console.error("Ошибка при получении ответа от Groq:", error);
             } finally {
-                hideTyping(); // Скрываем индикатор набора текста в любом случае
+                hideTyping();
             }
         }
 
-        // Функция для добавления сообщений в чат
         function addMessage(text, sender) {
             const msgEl = document.createElement('div');
             msgEl.className = `chat-message ${sender}`;
             msgEl.textContent = text;
             chatBody.appendChild(msgEl);
-            // Прокручиваем чат вниз к последнему сообщению
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // Функция для показа индикатора набора текста
         function showTyping() {
-            // Проверяем, не отображается ли уже индикатор
             if (document.getElementById('typingIndicator')) return;
 
             const typingEl = document.createElement('div');
             typingEl.className = 'typing-indicator';
-            typingEl.id = 'typingIndicator'; // Добавляем ID для удобства удаления
+            typingEl.id = 'typingIndicator';
             typingEl.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
             chatBody.appendChild(typingEl);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // Функция для скрытия индикатора набора текста
         function hideTyping() {
             const typingEl = document.getElementById('typingIndicator');
             if (typingEl) {
-                typingEl.remove(); // Удаляем элемент индикатора
+                typingEl.remove();
             }
         }
     </script>
