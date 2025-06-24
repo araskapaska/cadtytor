@@ -171,7 +171,7 @@
         </div>
         <div class="chat-body" id="chatBody">
             <div class="chat-message bot">
-                Привет! Я ваш помощник по Archicad, работающий на базе ИИ.Задавайте вопросы о программе!
+                Привет! Я ваш помощник по Archicad, работающий на базе LLaMA 3.1 от Groq. Задавайте вопросы о программе!
             </div>
         </div>
         <div class="chat-input-container">
@@ -214,15 +214,17 @@
                         messages: [
                             {
                                 role: 'system',
-                                content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы на русском языке.'
+                                content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.'
                             },
                             {
                                 role: 'user',
                                 content: message
                             }
                         ],
-                        max_tokens: 500,
-                        temperature: 0.7
+                        max_tokens: 1024,
+                        temperature: 1,
+                        top_p: 1,
+                        stream: false
                     })
                 });
 
