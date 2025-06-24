@@ -87,6 +87,19 @@
             color: var(--on-primary);
             font-size: 14px;
         }
+        .clear-history-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--on-primary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .clear-history-button .material-symbols-outlined {
+            font-size: 18px;
+        }
         .font-size-control {
             display: flex;
             align-items: center;
@@ -278,6 +291,10 @@
                     <span class="material-symbols-outlined">dark_mode</span>
                     <span class="theme-toggle-label">Сменить тему</span>
                 </button>
+                <button class="clear-history-button" id="clearHistory" aria-label="Очистить историю">
+                    <span class="material-symbols-outlined">delete</span>
+                    <span>Очистить чат</span>
+                </button>
                 <div class="font-size-control">
                     <span class="material-symbols-outlined">format_size</span>
                     <label for="fontSizeRange">Размер шрифта:</label>
@@ -304,6 +321,7 @@
         const sendButton = document.getElementById('sendButton');
         const themeToggle = document.getElementById('themeToggle');
         const fontSizeRange = document.getElementById('fontSizeRange');
+        const clearHistoryButton = document.getElementById('clearHistory');
 
         // Инициализация темы
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -323,6 +341,9 @@
 
         // Загрузка истории чата
         function loadChatHistory() {
+            // Очищаем чат перед загрузкой
+            chatBody.innerHTML = '';
+            // Загружаем сообщения, кроме системного
             messageHistory.forEach(msg => {
                 if (msg.role !== 'system') {
                     addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
@@ -344,6 +365,16 @@
             const fontSize = fontSizeRange.value;
             document.documentElement.style.setProperty('--font-size', `${fontSize}px`);
             localStorage.setItem('fontSize', fontSize);
+        });
+
+        // Очистка истории
+        clearHistoryButton.addEventListener('click', () => {
+            messageHistory = [
+                { role: 'system', content: 'Ты эксперт по Archicad, предоставляющий точные и полезные ответы в области архитектурного проектирования и использования программы Archicad. Отвечай на русском языке.' },
+                { role: 'assistant', content: 'Привет! Я ваш помощник по Archicad, работающий на базе ИИ. Задавайте вопросы о программе!' }
+            ];
+            localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
+            loadChatHistory();
         });
 
         chatInput.addEventListener('keypress', (e) => {
@@ -383,7 +414,7 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${JSON.stringify(errorData)}`);
+                    throw new Error(`Ошибка API: ${response.status}, ${JSON.stringify(errorData)}`);
                 }
 
                 const data = await response.json();
@@ -393,8 +424,9 @@
                 messageHistory.push({ role: 'assistant', content: data.choices[0].message.content });
                 localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
             } catch (error) {
-                addMessage(`Извините, произошла ошибка: ${error.message}`, 'bot');
-                messageHistory.push({ role: 'assistant', content: `Извините, произошла ошибка: ${error.message}` });
+                const errorMessage = 'Извините, не удалось связаться с сервером. Попробуйте еще раз.';
+                addMessage(errorMessage, 'bot');
+                messageHistory.push({ role: 'assistant', content: errorMessage });
                 localStorage.setItem('chatHistory', JSON.stringify(messageHistory));
                 console.error("Ошибка при получении ответа от Groq:", error);
             } finally {
