@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
@@ -74,14 +75,27 @@
             border: none;
             cursor: pointer;
             color: var(--on-primary);
-            font-size: 24px;
+            font-size: 14px;
             display: flex;
             align-items: center;
+            gap: 8px;
+            margin-right: 36px; /* Сдвиг влево на 36px */
+        }
+        .theme-toggle .material-symbols-outlined {
+            font-size: 18px;
+        }
+        .theme-toggle-label {
+            color: var(--on-primary);
+            font-size: 14px;
         }
         .font-size-control {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+        .font-size-control .material-symbols-outlined {
+            font-size: 18px;
+            color: var(--on-primary);
         }
         .font-size-control label {
             color: var(--on-primary);
@@ -217,16 +231,17 @@
             animation-delay: 0.4s;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes typingAnimation {
-            0%, 60%, 100% { transform: 0; }
-            to { opacity: translateY(-5px); }
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
         @media (max-width: 600px) {
             .chat-header {
                 padding: 15px;
+                gap: 8px;
             }
             .chat-body {
                 padding: 15px;
@@ -245,6 +260,12 @@
                 padding: 12px 16px;
                 border-radius: 20px;
             }
+            .font-size-control input[type="range"] {
+                width: 60px;
+            }
+            .theme-toggle {
+                margin-right: 12px;
+            }
         }
     </style>
 </head>
@@ -256,8 +277,10 @@
             <div class="chat-header-controls">
                 <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
                     <span class="material-symbols-outlined">dark_mode</span>
+                    <span class="theme-toggle-label">Сменить тему:</span>
                 </button>
                 <div class="font-size-control">
+                    <span class="material-symbols-outlined">format_size</span>
                     <label for="fontSizeRange">Размер шрифта:</label>
                     <input type="range" id="fontSizeRange" min="12" max="100" value="16">
                 </div>
@@ -286,7 +309,7 @@
         // Инициализация темы
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        themeToggle.querySelector('span').textContent = savedTheme === 'dark' ? 'dark_mode' : 'light_mode';
+        themeToggle.querySelector('.material-symbols-outlined').textContent = savedTheme === 'dark' ? 'dark_mode' : 'light_mode';
 
         // Инициализация размера шрифта
         const savedFontSize = localStorage.getItem('fontSize') || '16';
@@ -298,7 +321,7 @@
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
-            themeToggle.querySelector('span').textContent = newTheme === 'dark' ? 'dark_mode' : 'light_mode';
+            themeToggle.querySelector('.material-symbols-outlined').textContent = newTheme === 'dark' ? 'dark_mode' : 'light_mode';
             localStorage.setItem('theme', newTheme);
         });
 
@@ -396,3 +419,4 @@
     </script>
 </body>
 </html>
+```
